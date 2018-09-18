@@ -1,0 +1,19 @@
+{
+  "name": "jail-bot",
+  "version": "1.0.0",
+  "description": "Bot created for Leporpet#6610, with the simple function of punishing naughty users",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xPotater/JailBot.git"
+  },
+  "author": "Merlin W.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xPotater/JailBot/issues"
+  },
+  "homepage": "https://github.com/xPotater/JailBot#readme"
+}
