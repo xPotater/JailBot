@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/xPotater/JailBot/issues"
   },
-  "homepage": "https://github.com/xPotater/JailBot#readme"
+  "homepage": "https://github.com/xPotater/JailBot#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  }
 }
