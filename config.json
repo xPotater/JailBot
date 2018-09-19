@@ -1,3 +1,16 @@
 {
-    "prefix": "!"
+    "prefix": "!",
+
+    "commands":
+    [
+        {
+            "name": "help",
+            "desc": "Displays a help message."
+        },
+
+        {
+            "name": "jail @member",
+            "desc": "Punishes someone for being naughty."
+        }
+    ]
 }
