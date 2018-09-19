@@ -31,7 +31,7 @@ function sendMessage(channel, message)
 // Returns the first voice channel named "jail"
 function getJailChannel(guild)
 {
-    var jailChannel = guild.channels.find(channel => channel.type === "voice" && channel.name.toLowerCase() === "jail");
+    var jailChannel = guild.channels.find(channel => channel.type === "voice" && channel.name.toLowerCase() === "prison");
     return jailChannel;
 }
 
@@ -39,7 +39,7 @@ function getJailChannel(guild)
 function jailCheck(guild)
 {
     guild.members.forEach(member => {
-        if(typeof member.voiceChannel !== "undefined" && member.voiceChannel.name.toLowerCase() !== "jail")
+        if(typeof member.voiceChannel !== "undefined" && member.voiceChannel.name.toLowerCase() !== getJailChannel(guild))
         {
             member.setVoiceChannel(getJailChannel(guild))
                 .catch(err => {
@@ -100,7 +100,7 @@ client.on("message", async function(msg){
         }
 
         // Verify that the guild does have a role named "jailed"
-        var jailedRole = msg.guild.roles.find(role => role.name.toLowerCase() === "jailed");
+        var jailedRole = msg.guild.roles.find(role => role.name.toLowerCase() === "prisonnier");
         if(jailedRole === null)
         {
             sendMessage(msg.channel, "This guild does not have a \"Jailed\" role!")
