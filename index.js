@@ -31,22 +31,21 @@ function sendMessage(channel, message)
 // Returns the first voice channel named "jail"
 function getJailChannel(guild)
 {
-    var jailChannel = guild.channels.find(channel => channel.type === "voice" && channel.name.toLowerCase() === "prison");
-    return jailChannel;
+    return guild.channels.find(channel => channel.type === "voice" && channel.name.toLowerCase() === "prison");
 }
 
 // Checks if anybody should be moved to the jail
-function jailCheck(guild)
+function jailCheck(guild, member)
 {
-    guild.members.forEach(member => {
-        if(typeof member.voiceChannel !== "undefined" && member.voiceChannel.name.toLowerCase() !== getJailChannel(guild))
-        {
-            member.setVoiceChannel(getJailChannel(guild))
-                .catch(err => {
-                    console.log("Failed to move member: " + err);
-                });
-        }
-    });
+    if(!member.roles.find(e => e.name.toLowerCase() === "prisonnier")) return;
+    
+    if(typeof member.voiceChannel !== "undefined" && member.voiceChannel.name !== getJailChannel(guild).name)
+    {
+        member.setVoiceChannel(getJailChannel(guild))
+            .catch(err => {
+                console.log("Failed to move member: " + err);
+            });
+    }
 }
 
 // Quit process on warnings
@@ -103,7 +102,7 @@ client.on("message", async function(msg){
         var jailedRole = msg.guild.roles.find(role => role.name.toLowerCase() === "prisonnier");
         if(jailedRole === null)
         {
-            sendMessage(msg.channel, "This guild does not have a \"Jailed\" role!")
+            sendMessage(msg.channel, "This guild does not have a \"Prisonnier\" role!");
             return;
         }
 
@@ -139,7 +138,7 @@ client.on("message", async function(msg){
 
 // Whenever anyone switches channels, perform a jail check
 client.on("voiceStateUpdate", function(o, n){
-    jailCheck(n.guild);
+    jailCheck(n.guild, n);
 });
 
 // Login to the Discord API
