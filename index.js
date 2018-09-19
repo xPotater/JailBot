@@ -31,18 +31,12 @@ function sendMessage(channel, message)
 // Returns the first voice channel named "jail"
 function getJailChannel(guild)
 {
-<<<<<<< HEAD
     return guild.channels.find(channel => channel.type === "voice" && channel.name.toLowerCase() === "prison");
-=======
-    var jailChannel = guild.channels.find(channel => channel.type === "voice" && channel.name.toLowerCase() === "prison");
-    return jailChannel;
->>>>>>> 2c2deeedc0a6b7c9d45c2795af19bab46bb13662
 }
 
 // Checks if anybody should be moved to the jail
 function jailCheck(guild, member)
 {
-<<<<<<< HEAD
     if(!member.roles.find(e => e.name.toLowerCase() === "prisonnier")) return;
     
     if(typeof member.voiceChannel !== "undefined" && member.voiceChannel.name !== getJailChannel(guild).name)
@@ -52,17 +46,6 @@ function jailCheck(guild, member)
                 console.log("Failed to move member: " + err);
             });
     }
-=======
-    guild.members.forEach(member => {
-        if(typeof member.voiceChannel !== "undefined" && member.voiceChannel.name.toLowerCase() !== getJailChannel(guild))
-        {
-            member.setVoiceChannel(getJailChannel(guild))
-                .catch(err => {
-                    console.log("Failed to move member: " + err);
-                });
-        }
-    });
->>>>>>> 2c2deeedc0a6b7c9d45c2795af19bab46bb13662
 }
 
 // Quit process on warnings
