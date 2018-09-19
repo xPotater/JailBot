@@ -19,6 +19,7 @@ const Discord = require("discord.js");
 // Instantiate a new client
 const client = new Discord.Client();
 
+// Sends a message, safely
 function sendMessage(channel, message)
 {
     channel.send(message)
@@ -27,18 +28,20 @@ function sendMessage(channel, message)
         });
 }
 
+// Returns the first voice channel named "jail"
 function getJailChannel(guild)
 {
-    var jailChannel = msg.guild.channels.find(channel => channel.type === "voice" && channel.name.toLowerCase === "jail");
+    var jailChannel = guild.channels.find(channel => channel.type === "voice" && channel.name.toLowerCase() === "jail");
     return jailChannel;
 }
 
+// Checks if anybody should be moved to the jail
 function jailCheck(guild)
 {
     guild.members.forEach(member => {
-        if(typeof member.voiceChannel !== "undefined" && member.voiceChannel.name.toLowerCase !== "jail")
+        if(typeof member.voiceChannel !== "undefined" && member.voiceChannel.name.toLowerCase() !== "jail")
         {
-            member.setVoiceChannel(getJailChannel())
+            member.setVoiceChannel(getJailChannel(guild))
                 .catch(err => {
                     console.log("Failed to move member: " + err);
                 });
@@ -97,8 +100,8 @@ client.on("message", async function(msg){
         }
 
         // Verify that the guild does have a role named "jailed"
-        var jailedRole = msg.guild.roles.find(role => role.name.toLowerCase === "jailed");
-        if(typeof jailedRole === "undefined")
+        var jailedRole = msg.guild.roles.find(role => role.name.toLowerCase() === "jailed");
+        if(jailedRole === null)
         {
             sendMessage(msg.channel, "This guild does not have a \"Jailed\" role!")
             return;
@@ -125,15 +128,19 @@ client.on("message", async function(msg){
                 console.log("Failed to add role: " + err);
             });
 
+
+        // Send the response message
+        sendMessage(msg.channel, "Jailed " + member.displayName + "!");
+
         // Immediately do a check to see if the member should be moved to the jail
         jailCheck(msg.guild);
     }
 });
 
 // Whenever anyone switches channels, perform a jail check
-client.on("voiceStateUpdate", function(){
-    jailCheck();
+client.on("voiceStateUpdate", function(o, n){
+    jailCheck(n.guild);
 });
 
-// Login to the client
+// Login to the Discord API
 client.login(credentials.discordToken);
